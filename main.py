@@ -9,6 +9,7 @@ from selenium.common.exceptions import (
     TimeoutException,
 )
 
+is_going_on_weekend_or_holiday = False
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
@@ -95,9 +96,9 @@ def select_afternoon_seat():
 # Function to select available date
 def select_date(days):
     for day in days.find_elements(By.TAG_NAME, "label"):
-        # checking if the date is available (green) or if day is missing morning or afternoon (blue)
-        print(day.value_of_css_property("background-color"))
-        if (day.value_of_css_property("background-color")) != "rgba(255, 0, 0, 1)":
+        # checking if the date is available (green) or if day is missing morning or afternoon (blue) or if the employee want to work on friday (white and is_going_on_weekend_or_holiday needs to be true)
+        color = day.value_of_css_property("background-color")
+        if color in ("rgba(255, 0, 0, 1)", "rgba(0, 0, 255, 1)") or (color == "rgba(255, 255, 255, 1)" and is_going_on_weekend_or_holiday):
             day.click()
             select_morning_seat()
             select_afternoon_seat()
