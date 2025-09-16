@@ -108,3 +108,6 @@ def select_date(days):
 # now checking for if date to sign up is available and if so selecting it
 daysToPick = driver.find_element(By.ID, "divDates2")
 select_date(daysToPick)
+
+time.sleep(3)
+driver.quit()
